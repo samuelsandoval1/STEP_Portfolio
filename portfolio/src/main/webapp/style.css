@@ -1,25 +1,40 @@
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css";
+
+/* General Page Styling */
 #content {
   margin-left: auto;
   margin-right: auto;
   font-family: 'Open Sans', sans-serif;
 }
+
 body {
   padding: 0;
   margin: 0;
 }
+
 html {
   scroll-behavior: smooth;
 }
 
+button{
+    background-color: #79b8ff;
+    border: 2px solid #1175c2;
+    border-radius: 25px;
+    margin: 1px;
+    text-decoration: none;
+    outline: none;
+}
+
+button:hover {
+    transform: translate(4px, 4px) scale(1.10);
+}
 #greeting-container {
   margin-top: 20px;
 }
 
 /*--- navigation bar ---*/
-h1 {
-    background-color: #84bdff;
-    padding: 0 10px 0 10px;
-}
+
+
 .navbar {
 	background: #79b8ff;
 }
@@ -29,7 +44,9 @@ h1 {
 	color: #fff;
     font-family: 'Open Sans', sans-serif;
 	cursor: pointer;
+    border: 0;
 }
+
 .icon1{
     height: 50%;
     width: 47px;
@@ -52,8 +69,12 @@ h1 {
 	justify-content: flex-end;
 }
 
-/*--- header ---*/
+/*--- main header section ---*/
 
+h1 {
+    background-color: #84bdff;
+    padding: 0 10px 0 10px;
+}
 .header {
 	background-color: #79b8ff;
 	background-size: cover;
@@ -78,7 +99,7 @@ h1 {
 
 .description a {
 	color: #fff;
-	font-size: 1.3rem;
+	font-size: 3.3rem;
     font-family: 'Open Sans', sans-serif;
 	line-height: 1.5;
     cursor: pointer;
@@ -87,7 +108,8 @@ h1 {
 
 }
 
-/*--- about section ---*/
+/*--- about Sam section ---*/
+
 .sam-photo{
     border-radius: 50%; 
     height: 200px;
@@ -97,19 +119,23 @@ h1 {
 .section{
     padding: 3rem 1.5rem;
 }
+
 .container {
     flex-grow: 1;
     margin: 0 auto;
     position: relative;
     width: auto;
 }
+
 .row {
   display: flex;
 }
 
+
 .column {
   flex: 50%;
 }
+
 .columns {
     margin-left: -0.75rem;
     margin-right: -0.75rem;
@@ -158,9 +184,12 @@ h1 {
   margin-top: 20px;
 }
 
+
+/* Projects Section */
 .project-area {
 	background: #79b8ff;
 }
+
 .project-title{
     color: #333;
 	font-size: 1.6rem;
@@ -178,20 +207,13 @@ h1 {
     font-style: italic !important;
 
 }
+
 .project-p{
     margin-left: 700px;
 }
-button{
-    background-color: #79b8ff;
-    border: 2px solid #1175c2;
-    border-radius: 25px;
-    margin: 1px;
-    text-decoration: none;
-    outline: none;
-}
-button:hover {
-    transform: translate(4px, 4px) scale(1.10);
-}
+
+
+
 
 /*--- footer ---*/
 
