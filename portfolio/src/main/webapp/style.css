@@ -6,7 +6,9 @@
 body {
   padding: 0;
   margin: 0;
-  /* background: #79b8ff; */
+}
+html {
+  scroll-behavior: smooth;
 }
 
 #greeting-container {
@@ -14,7 +16,10 @@ body {
 }
 
 /*--- navigation bar ---*/
-
+h1 {
+    background-color: #84bdff;
+    padding: 0 10px 0 10px;
+}
 .navbar {
 	background: #79b8ff;
 }
@@ -79,7 +84,7 @@ body {
 
 }
 
-.description p {
+.description a {
 	color: #fff;
 	font-size: 1.3rem;
     font-family: 'Open Sans', sans-serif;
