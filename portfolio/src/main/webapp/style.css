@@ -5,17 +5,6 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
-}
-
-#greeting-container {
-  margin-top: 20px;
-}
-
-
-#content {
-  margin-left: auto;
-  margin-right: auto;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -41,6 +30,9 @@ html {
   text-transform: uppercase;
   overflow: hidden;
   transition: 1s all ease;
+  background-color: #ffffff;
+  margin-top: 20px;
+
 }
 .btn::before{
   background: #79b8ff;
@@ -66,14 +58,6 @@ button:hover {
     transform: translate(4px, 4px) scale(1.10);
 }
 
-/* .features .btn {
-	background-color: #ffffff;
-	border: 1px solid #79b8ff;
-	color: #fff;
-	margin-top: 20px;
-} */
-
-
 
 #greeting-container {
   margin-top: 20px;
@@ -97,11 +81,13 @@ button:hover {
 .icon1{
     height: 50%;
     width: 47px;
+    border: 0;
 }
 
 .icon2{
     height: 50%;
     width: 30px;
+    border: 0;
 }
 
 .nav-link {
@@ -216,6 +202,7 @@ h1 {
 	border-radius: 0;
 }
 
+
 #fact-container {
   margin-top: 20px;
 }
@@ -228,6 +215,7 @@ h1 {
 
 .project-title{
     color: #fff;
+
 	font-size: 1.6rem;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -294,11 +282,9 @@ h1 {
 	.features {
 		margin: 0;
 	}
-
 }
 
 /* Down Arrow */
-
 html body [data-ca3_iconfont="ETmodules"]::before {
     font-family: "ETmodules";
 }
