@@ -53,10 +53,10 @@ function addRandomFact() {
 
         if (this.isDeleting) { delta /= 2; }
 
-        if (!this.isDeleting && this.txt === fullTxt) {
+        if (!this.isDeleting && this.text === fullTxt) {
             delta = this.period;
             this.isDeleting = true;
-        } else if (this.isDeleting && this.txt === '') {
+        } else if (this.isDeleting && this.text === '') {
             this.isDeleting = false;
             this.loopNum++;
             delta = 500;
@@ -67,11 +67,12 @@ function addRandomFact() {
         }, delta);
     };
 
+
     window.onload = function() {
-        var elements = document.getElementsByClassName('typewrite');
-        for (const element of elements) {
-            var toRotate = element.getAttribute('data-type');
-            var period = element.getAttribute('data-period');
+        let elements = document.getElementsByClassName('typewrite');
+        for (let element of elements) {
+            const toRotate = element.getAttribute('data-type');
+            const period = element.getAttribute('data-period');
             if (toRotate) {
                 new textBeingTyped(element, JSON.parse(toRotate), period);
             }
