@@ -38,7 +38,7 @@ function addRandomFact() {
 
     textBeingTyped.prototype.tick = function() {
         let i = this.loopNum % this.toRotate.length;
-        var fullTxt = this.toRotate[i];
+        let fullTxt = this.toRotate[i];
 
         if (this.isDeleting) {
             this.text = fullTxt.substring(0, this.text.length - 1);
@@ -48,8 +48,8 @@ function addRandomFact() {
 
         this.element.innerHTML = '<span class="wrap">' + this.text + '</span>';
 
-        var that = this;
-        var delta = 200 - Math.random() * 100;
+        let that = this;
+        let delta = 200 - Math.random() * 100;
 
         if (this.isDeleting) { delta /= 2; }
 
