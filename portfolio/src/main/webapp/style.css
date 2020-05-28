@@ -1,9 +1,336 @@
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css";
+
+/* General Page Styling */
+
 #content {
+  font-family: 'Open Sans', sans-serif;
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+}
+
+body {
+  margin: 0;  
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.btn {
+  background-color: #ffffff;  
+  border: 2px solid #79b8ff;
+  color: #333;
+  display: block;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  margin: 30px 0;  
+  margin-top: 20px;
+  overflow: hidden;
+  padding: 14px 60px;
+  position: relative;
+  transition: 1s all ease;  
+  text-decoration: none;   
+  text-transform: uppercase;
+}
+
+.btn::before {
+  background: #79b8ff;
+  content: "";
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  transition: all 0.6s ease;
+  z-index: -1;
+
+}
+
+.btn1::before {  
+  height: 100%;
+  width: 0%;
+}
+
+.btn1:hover::before {
+  width: 100%;
+}
+
+button:hover {
+    transform: translate(4px, 4px) scale(1.10);
 }
 
 #greeting-container {
   margin-top: 20px;
+}
+.space1 {
+  margin-top:5px;
+}
+
+.space2 {
+  margin-top:50px;
+}
+
+.space4 {
+  margin-top:100px;
+}
+/*--- navigation bar ---*/
+
+.navbar {
+  background: #79b8ff;
+}
+
+.nav-link,
+.navbar-brand {    
+  border: 0;
+  color: #fff;	
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.icon1 {
+  border: 0;
+  height: 50%;
+  width: 47px;
+}
+
+.icon2 {    
+  border: 0;
+  height: 50%;
+  width: 30px;
+}
+
+.nav-link {
+  margin-right: 1em !important;
+}
+
+.nav-link:hover {
+  color: #000;
+}
+
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+/*--- main header section ---*/
+
+h1 {
+  background-color: #84bdff;
+  padding: 0 10px 0 10px;
+}
+
+.header {
+  background-color: #79b8ff;	
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+
+.description {
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -55%);
+  text-align: center; 
+  top: 45%;
+}
+
+.description h1 {
+  color: #494949;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.description a {
+  color: #fff;    
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;   	
+  font-size: 3.3rem;
+  font-style: italic !important;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.typewrite > .wrap { 
+  border-right: 0.08em solid #fff;
+}
+
+/*--- about Sam section ---*/
+
+.sam-photo {
+  border-radius: 50%; 
+  height: 200px;
+  width: 200px;
+}
+
+.section {
+  padding: 3rem 1.5rem;
+}
+
+.container {
+  flex-grow: 1;
+  margin: 0 auto;
+  position: relative;
+  width: auto;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+.columns {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: -0.75rem;
+}
+
+.features {
+  margin: 4em auto;
+  padding: 1em;
+  position: relative;
+}
+
+.feature-title {
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.features, 
+.form-control,
+.features input {
+  border-radius: 0;
+}
+
+
+#fact-container {
+  margin-top: 20px;
+}
+
+/* Projects Section */
+
+.project-area {
+  background: #79b8ff;
+}
+
+.project-title {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-left: 700px;
+  text-transform: uppercase;
+}
+
+.project-name {
+  color: #fff;
+  font-size: 1.3rem;    
+  font-style: italic !important;
+  font-weight: 700;    
+  margin-left: 700px;
+  text-transform: uppercase;
+}
+
+.project-p {
+  color: #fff;
+  margin-left: 700px;
+}
+
+/*--- footer ---*/
+
+.page-footer {
+  background-color: #222;
+  color: #ccc;
+  padding: 60px 0 30px;
+}
+
+.footer-copyright {
+  color: #666;
+  padding: 40px 0;
+}
+.foot {
+  height: 40px;
+  padding: 1px;
+  width: 40px;
+}
+
+/*--- media queries ---*/
+
+@media (max-width: 575.98px) {
+
+	.description {
+      left: 0;
+      padding: 0 15px;
+      position: absolute;
+      transform: none;
+      text-align: center; 		
+      top: 10%;
+	}
+	
+	.description h1 {
+	  font-size: 2em;
+	}
+	
+	.description p {
+	  font-size: 1.2rem;
+	}
+	
+	.features {
+	  margin: 0;
+	}
+}
+
+/* Down Arrow */
+html body [data-ca3_iconfont="ETmodules"]::before {
+  font-family: "ETmodules";
+}
+[data-ca3_icon]::before {
+  content: attr(data-ca3_icon);
+  font-weight: normal;
+}
+
+.ca3-scroll-down-arrow {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2hldnJvbl90aGluX2Rvd24iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiBmaWxsPSJ3aGl0ZSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTE3LjQxOCw2LjEwOWMwLjI3Mi0wLjI2OCwwLjcwOS0wLjI2OCwwLjk3OSwwYzAuMjcsMC4yNjgsMC4yNzEsMC43MDEsMCwwLjk2OWwtNy45MDgsNy44M2MtMC4yNywwLjI2OC0wLjcwNywwLjI2OC0wLjk3OSwwbC03LjkwOC03LjgzYy0wLjI3LTAuMjY4LTAuMjctMC43MDEsMC0wLjk2OWMwLjI3MS0wLjI2OCwwLjcwOS0wLjI2OCwwLjk3OSwwTDEwLDEzLjI1TDE3LjQxOCw2LjEwOXoiLz48L3N2Zz4=);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.ca3-scroll-down-link {	
+  bottom: 0px;
+  color: #FFF;
+  cursor: pointer;
+  font-size: 70px;
+  height: 60px;	
+  left: 50%;	margin: 0px 0 0 -40px;
+  line-height: 60px;
+  position: absolute;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+  width: 80px;
+  z-index: 100;
+
+  -webkit-animation: ca3_fade_move_down 2s ease-in-out infinite;
+  -moz-animation:    ca3_fade_move_down 2s ease-in-out infinite;
+  animation:         ca3_fade_move_down 2s ease-in-out infinite;
+}
+
+/*animated scroll arrow animation*/
+@-webkit-keyframes ca3_fade_move_down {
+  0%   { -webkit-transform:translate(0,-20px); opacity: 0;  }
+  50%  { opacity: 1;  }
+  100% { -webkit-transform:translate(0,20px); opacity: 0; }
+}
+@-moz-keyframes ca3_fade_move_down {
+  0%   { -moz-transform:translate(0,-20px); opacity: 0;  }
+  50%  { opacity: 1;  }
+  100% { -moz-transform:translate(0,20px); opacity: 0; }
+}
+@keyframes ca3_fade_move_down {
+  0%   { transform:translate(0,-20px); opacity: 0;  }
+  50%  { opacity: 1;  }
+  100% { transform:translate(0,20px); opacity: 0; }
 }
