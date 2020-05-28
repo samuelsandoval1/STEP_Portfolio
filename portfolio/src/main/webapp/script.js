@@ -21,8 +21,6 @@ function addRandomFact() {
 
 //Typewriting Effect
 {
-    //call new startRotation(element, data, period) in the window.onload function.
-
 
     //  * @param {any} element This parameter is always needed.
     //  * @param {any} toRotate This parameter is always needed.
@@ -39,7 +37,7 @@ function addRandomFact() {
     };
 
     textBeingTyped.prototype.tick = function() {
-        var i = this.loopNum % this.toRotate.length;
+        let i = this.loopNum % this.toRotate.length;
         var fullTxt = this.toRotate[i];
 
         if (this.isDeleting) {
@@ -77,12 +75,6 @@ function addRandomFact() {
             if (toRotate) {
                 new textBeingTyped(element, JSON.parse(toRotate), period);
             }
-            element++;
         }
-        // INJECT CSS
-        var css = document.createElement("style");
-        css.type = "text/css";
-        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
-        document.body.appendChild(css);
     };
 }
