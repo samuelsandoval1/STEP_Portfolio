@@ -81,8 +81,7 @@ function addRandomFact() {
 }
 
 function getMessage() {
-  fetch('/data').then(response => response.text()).then((message) => {
-    document.getElementById('message-container').innerText = message;
+  fetch('/data').then(response => response.text()).then((quote) => {
+    document.getElementById('message-container').innerText = quote;
   });
-  console.log("Done");
 }
