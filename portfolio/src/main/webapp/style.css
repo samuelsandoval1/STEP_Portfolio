@@ -211,6 +211,9 @@ h1 {
   margin-top: 20px;
 }
 
+#message-container {
+  margin-top: 20px;
+}
 /* Projects Section */
 
 .project-area {
@@ -221,7 +224,7 @@ h1 {
   color: #fff;
   font-size: 1.6rem;
   font-weight: 700;
-  margin-left: 450px;
+  margin-left: 150px;
   text-transform: uppercase;
 }
 
@@ -230,13 +233,13 @@ h1 {
   font-size: 1.3rem;    
   font-style: italic !important;
   font-weight: 700;    
-  margin-left: 450px;
+  margin-left: 150px;
   text-transform: uppercase;
 }
 
 .project-p {
   color: #fff;
-  margin-left: 450px;
+  margin-left: 150px;
 }
 
 /*--- footer ---*/
