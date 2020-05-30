@@ -39,5 +39,6 @@ public class DataServlet extends HttpServlet {
     String name = names.get((int) (Math.random() * names.size()));
     response.setContentType("text/html;");
     response.getWriter().println("Hello " + name + "!");
+
   }
 }
