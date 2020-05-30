@@ -80,8 +80,8 @@ function addRandomFact() {
     };
 }
 
-function getMessage() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('message-container').innerText = quote;
-  });
+async function getName() {
+    const response = await fetch('/data');
+    const name = await response.text();
+    document.getElementById('name-container').innerText = name;
 }
