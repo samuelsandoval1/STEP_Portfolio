@@ -43,7 +43,7 @@ public class DataServlet extends HttpServlet {
   
   private static final Gson gson = new Gson();
 
-  private int maxComments = 5;
+  private int maxComments = 40;
 
 
   @Override
@@ -78,12 +78,12 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = request.getParameter("comment-text");
-        storeComments(comment);
+        storeComment(comment);
 
         response.sendRedirect("/index.html");
     }
 
-    private void storeComments(String comment) {
+    private void storeComment(String comment) {
         String author = "user";
         
         LocalDateTime localDate = LocalDateTime.now();
