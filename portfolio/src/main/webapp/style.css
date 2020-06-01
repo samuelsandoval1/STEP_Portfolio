@@ -242,6 +242,21 @@ h1 {
   margin-left: 150px;
 }
 
+/* comment section */
+
+.project-name {
+  color: #494949;
+  font-size: 1.3rem;    
+  font-style: italic !important;
+  font-weight: 700;    
+  margin-left: 150px;
+  text-transform: uppercase;
+}
+
+.comment-p {
+  color: #494949;
+  margin-left: 150px;
+}
 /*--- footer ---*/
 
 .page-footer {
