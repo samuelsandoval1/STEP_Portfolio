@@ -7,7 +7,7 @@
 //     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed onclear an "AS IS" BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -21,8 +21,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.sps.data.Comment;
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -38,10 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
-  /** Java object converter. */
   private static final Gson gson = new Gson();
 
-  /** The max amount of comments that will be displayed. */
   private int maxComments = 5;
 
 
@@ -72,7 +70,7 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
          String comment = request.getParameter("comment-text");
-        String author = "anonymous";
+        String author = "user";
         String timeStamp = "01/01/2020";
 
         Entity commentEntity = new Entity("Comment");

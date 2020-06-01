@@ -230,7 +230,7 @@ h1 {
 
 .project-name {
   color: #fff;
-  font-size: 1.3rem;    
+  font: 1.3rem;    
   font-style: italic !important;
   font-weight: 700;    
   margin-left: 150px;
@@ -244,12 +244,11 @@ h1 {
 
 /* comment section */
 
-.project-name {
+.comment-name {
   color: #494949;
   font-size: 1.3rem;    
   font-style: italic !important;
   font-weight: 700;    
-  margin-left: 150px;
   text-transform: uppercase;
 }
 
@@ -257,6 +256,10 @@ h1 {
   color: #494949;
   margin-left: 150px;
 }
+.comment-button {
+  color: #494949;
+}
+
 /*--- footer ---*/
 
 .page-footer {

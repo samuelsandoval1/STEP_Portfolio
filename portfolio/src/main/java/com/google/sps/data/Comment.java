@@ -2,7 +2,6 @@ package com.google.sps.data;
 
 import java.util.Date;
 
-/** Class containing the data for comments. */
 public final class Comment {
 
   private final long id;
@@ -28,18 +27,4 @@ public final class Comment {
     return id;
   }
 
-  /** Getter method for author. */
-  public String getAuthor() {
-    return author;
-  }
-
-  /** Getter method for comment. */
-  public String getComment() {
-    return comment;
-  }
-
-  /** Getter method for timeStamp. */
-  public String getTimeStamp() {
-    return timeStamp;
-  }
 }
