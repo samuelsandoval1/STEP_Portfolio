@@ -14,9 +14,21 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,22 +36,65 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  
+  private static final Gson gson = new Gson();
+
+  private int maxComments = 40;
+
+  private List<Comment> fetchComments() {
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    List<Entity> resultsList = results.asList(FetchOptions.Builder.withLimit(maxComments));
+
+    List<Comment> comments = new ArrayList<>();
+    for (Entity entity : resultsList) {
+        long id = entity.getKey().getId();
+        String author = (String) entity.getProperty("author");
+        String comment = (String) entity.getProperty("comment");
+        Date timestamp = (Date) entity.getProperty("timestamp");
+
+        Comment commentObject = new Comment(id, author, comment, timestamp);
+        comments.add(commentObject);
+    }
+    return comments;
+    }
+
+  private void storeComment(String comment) {
+    String author = "user";
     
-  private List<String> names;
- 
-  @Override
-  public void init() {
-    names = new ArrayList<String>(Arrays.asList("Sam", "Hadley", "Jerry"));
-  }
+    LocalDateTime localDate = LocalDateTime.now();
+
+    Date timestamp = Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("author", author);
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+    }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = names.get((int) (Math.random() * names.size()));
-    response.setContentType("text/html;");
-    response.getWriter().println("Hello " + name + "!");
+    List<Comment> comments = fetchComments();
 
+    response.setContentType("application/json;");
+    String json = gson.toJson(comments);
+    response.getWriter().println(json);
   }
+
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String comment = request.getParameter("comment-text");
+        storeComment(comment);
+
+        response.sendRedirect("/index.html");
+    }
+
 }

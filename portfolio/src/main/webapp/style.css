@@ -230,7 +230,7 @@ h1 {
 
 .project-name {
   color: #fff;
-  font-size: 1.3rem;    
+  font: 1.3rem;    
   font-style: italic !important;
   font-weight: 700;    
   margin-left: 150px;
@@ -240,6 +240,31 @@ h1 {
 .project-p {
   color: #fff;
   margin-left: 150px;
+}
+
+/* comment section */
+
+.comment-name {
+  color: #494949;
+  font-size: 1.3rem;    
+  font-style: italic !important;
+  font-weight: 700;    
+  text-transform: uppercase;
+}
+
+.comment-box {
+  color: #494949;
+  margin-left: 150px;
+}
+
+.comment-button {
+  color: #494949;
+}
+
+#comments-list{
+    color:#fff;
+    font-size: 1rem;
+    line-height: 200%;
 }
 
 /*--- footer ---*/
@@ -254,6 +279,7 @@ h1 {
   color: #666;
   padding: 40px 0;
 }
+
 .foot {
   height: 40px;
   padding: 1px;
