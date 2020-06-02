@@ -26,8 +26,8 @@ import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -36,8 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
@@ -45,6 +43,41 @@ public class DataServlet extends HttpServlet {
 
   private int maxComments = 40;
 
+  private List<Comment> fetchComments() {
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    List<Entity> resultsList = results.asList(FetchOptions.Builder.withLimit(maxComments));
+
+    List<Comment> comments = new ArrayList<>();
+    for (Entity entity : resultsList) {
+        long id = entity.getKey().getId();
+        String author = (String) entity.getProperty("author");
+        String comment = (String) entity.getProperty("comment");
+        Date timestamp = (Date) entity.getProperty("timestamp");
+
+        Comment commentObject = new Comment(id, author, comment, timestamp);
+        comments.add(commentObject);
+    }
+    return comments;
+    }
+
+  private void storeComment(String comment) {
+    String author = "user";
+    
+    LocalDateTime localDate = LocalDateTime.now();
+
+    Date timestamp = Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("author", author);
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+    }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -55,26 +88,7 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-    private List<Comment> fetchComments() {
-        Query query = new Query("Comment").addSort("timeStamp", SortDirection.DESCENDING);
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
-        List<Entity> resultsList = results.asList(FetchOptions.Builder.withLimit(maxComments));
-
-        List<Comment> comments = new ArrayList<>();
-        for (Entity entity : resultsList) {
-            long id = entity.getKey().getId();
-            String author = (String) entity.getProperty("author");
-            String comment = (String) entity.getProperty("comment");
-            Date timestamp = (Date) entity.getProperty("timeStamp");
-
-            Comment commentObject = new Comment(id, author, comment, timestamp);
-            comments.add(commentObject);
-        }
-        return comments;
-    }
-
+    
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = request.getParameter("comment-text");
@@ -83,19 +97,4 @@ public class DataServlet extends HttpServlet {
         response.sendRedirect("/index.html");
     }
 
-    private void storeComment(String comment) {
-        String author = "user";
-        
-        LocalDateTime localDate = LocalDateTime.now();
-
-        Date timeStamp = Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
-
-        Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("author", author);
-        commentEntity.setProperty("comment", comment);
-        commentEntity.setProperty("timeStamp", timeStamp);
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(commentEntity);
-    }
 }

@@ -77,11 +77,36 @@ function addRandomFact() {
                 new textBeingTyped(element, JSON.parse(toRotate), period);
             }
         }
+        getComments();
     };
 }
+/** Display the comments acquired from the datastore */
+function loadComments(comments) {
+    const commentContainer = document.getElementById("comments-list");
+    comments.forEach(commentObject => {
+        const childDiv = document.createElement("div");
+        childDiv.innerText = "[" + commentObject.timestamp + "] "
+            + commentObject.author + ": " + commentObject.comment;
+        commentContainer.appendChild(childDiv);
 
-async function getName() {
+    })
+}
+
+/** Acquire a comment from /data and display it. */
+async function getComments() {
     const response = await fetch('/data');
-    const name = await response.text();
-    document.getElementById('name-container').innerText = name;
+    const data = await response.json();
+    loadComments(data);
+}
+
+/** Delete all comments from datastore. */
+async function deleteComments() {
+    const response = await fetch('/delete-data', {
+        method: 'POST',
+    });
+    getComments();
+}
+
+function temp() {
+    console.log("hello");
 }
