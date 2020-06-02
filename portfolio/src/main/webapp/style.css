@@ -286,6 +286,16 @@ h1 {
   width: 40px;
 }
 
+/* Chart */
+.poll-style {
+  color: #494949;
+  margin-left:190px;
+}
+.poll-butn {
+  color: #494949;
+  margin-left:10px;
+}
+
 /*--- media queries ---*/
 
 @media (max-width: 575.98px) {
