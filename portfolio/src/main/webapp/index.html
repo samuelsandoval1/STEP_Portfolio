@@ -113,12 +113,12 @@
 			<h3 class="project-title">Comments</h3>
 			<div class="space1"></div>
 
-			<form class="comment-p" action="/data" method="POST" autocomplete="off" id="sendComment">
+			<form class="comment-box" action="/data" method="POST" autocomplete="off" id="sendComment">
 				<input type="text" id = "comment-text" name="comment-text"
-                    placeholder="Comment..." minlength="1" maxlength="120" required/> <br/>
-            </form>
-				<input class="comment-p" type="submit" value="Submit Comment" form="sendComment"/>
-				<button class="comment-p"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
+                    placeholder="Comment..." minlength="1" maxlength="120" required/>
+				<!-- </form> -->
+				<input class="comment-button" type="submit" value="Submit Comment" form="sendComment"/> <br/>
+				<button class="comment-button"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
 
 				<div class="space2"></div>
 

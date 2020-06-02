@@ -20,24 +20,6 @@ public final class Comment {
     this.author = author;
     this.comment = comment;
     this.timestamp = timestamp;
-}
-
-  /** Getter method for id. */
-  public long getId() {
-    return id;
-  }
-  /** Getter method for author. */
-  public String getAuthor() {
-    return author;
   }
 
-  /** Getter method for comment. */
-  public String getComment() {
-    return comment;
-  }
-
-  /** Getter method for timeStamp. */
-  public Date getTimestamp() {
-    return timestamp;
-  }
 }

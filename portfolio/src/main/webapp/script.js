@@ -106,7 +106,3 @@ async function deleteComments() {
     });
     getComments();
 }
-
-function temp() {
-    console.log("hello");
-}

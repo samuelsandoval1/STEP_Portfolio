@@ -12,8 +12,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.sps.data.Comment;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -26,15 +26,15 @@ public class DeleteData extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+      Query query = new Query("Comment");
 
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      PreparedQuery results = datastore.prepare(query);
 
-        for (Entity entity : results.asIterable()) {
-            datastore.delete(entity.getKey());
-        }
+      for (Entity entity : results.asIterable()) {
+          datastore.delete(entity.getKey());
+      }
 
-        response.sendRedirect("/index.html");
-    }
+      response.sendRedirect("/index.html");
+  }
 }

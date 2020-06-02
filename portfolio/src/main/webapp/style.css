@@ -252,19 +252,19 @@ h1 {
   text-transform: uppercase;
 }
 
-.comment-p {
+.comment-box {
   color: #494949;
   margin-left: 150px;
 }
+
 .comment-button {
   color: #494949;
 }
+
 #comments-list{
     color:#fff;
     font-size: 1rem;
     line-height: 200%;
-    margin-left: 150px;
-
 }
 
 /*--- footer ---*/
@@ -272,7 +272,6 @@ h1 {
 .page-footer {
   background-color: #222;
   color: #ccc;
-
   padding: 60px 0 30px;
 }
 
@@ -280,6 +279,7 @@ h1 {
   color: #666;
   padding: 40px 0;
 }
+
 .foot {
   height: 40px;
   padding: 1px;
