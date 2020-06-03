@@ -113,23 +113,23 @@ google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-    fetch('/poll-data').then(response => response.json())
-        .then((pollVotes) => {
-            const data = new google.visualization.DataTable();
-            data.addColumn('string', 'Drink');
-            data.addColumn('number', 'Votes');
-            Object.keys(colorVotes).forEach((color) => {
-                data.addRow([color, colorVotes[color]]);
-            });
+  fetch('/poll-data').then(response => response.json())
+  .then((bigfootSightings) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Year');
+    data.addColumn('number', 'Sightings');
+    Object.keys(bigfootSightings).forEach((year) => {
+      data.addRow([year, bigfootSightings[year]]);
+    });
 
-            const options = {
-                'title': 'Drink Preference',
-                'width': 600,
-                'height': 500
-            };
+    const options = {
+      'title': 'Bigfoot Sightings',
+      'width':300,
+      'height':200
+    };
 
-            const chart = new google.visualization.ColumnChart(
-                document.getElementById('chart-container'));
-            chart.draw(data, options);
-        });
+    const chart = new google.visualization.LineChart(
+        document.getElementById('chart-container'));
+    chart.draw(data, options);
+  });
 }

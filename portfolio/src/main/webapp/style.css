@@ -267,6 +267,12 @@ h1 {
     line-height: 200%;
 }
 
+/* Chart */
+
+.poll-style{
+    margin-left: 100px;
+}
+
 /*--- footer ---*/
 
 .page-footer {
@@ -284,16 +290,6 @@ h1 {
   height: 40px;
   padding: 1px;
   width: 40px;
-}
-
-/* Chart */
-.poll-style {
-  color: #494949;
-  margin-left:190px;
-}
-.poll-butn {
-  color: #494949;
-  margin-left:10px;
 }
 
 /*--- media queries ---*/

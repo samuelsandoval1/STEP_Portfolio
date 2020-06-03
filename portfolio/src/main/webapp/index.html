@@ -8,6 +8,8 @@
 	<link rel="shortcut icon" href="images/SS_Initials.png" type="image/SS_initials">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
 	<link rel="stylesheet" href="style.css" />
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
 </head>
 
 <body>
@@ -90,85 +92,78 @@
 				</ul>
 				<br>
 			</div>
-        </div>
-    </div>
+			</div>
+		</div>
 
 		<!-- Projects Section -->
-    <div id="projects" class="project-area">
-        <br>
-        <h3 class="project-title">Projects </h3>
-        <br>
-        <h3 class="project-name">Personal Website</h3>
-        <p class="project-p">Developed a web platform to display my web projects
-            and information about myself.
-        </p>
-        <div class="space2"></div>
-        <h3 class="project-name">Orgspace</h3>
-        <p class="project-p">Developed a web platform for non-profit organizations
-            to connect with other organizations and individuals at Google CSSI in
-            Mountain View in 2019.</p>
-        <div class="space2"></div>
-        <div class="row">
-            
-        <!-- Comments Feature -->
-            <div class="col">
-            <h3 class="project-title">Comments</h3>
-            <div class="space1"></div>
+		<div id="projects" class="project-area">
+			<br>
+			<h3 class="project-title">Projects </h3>
+			<br>
+			<h3 class="project-name">Personal Website</h3>
+			<p class="project-p">Developed a web platform to display my web projects
+				and information about myself.
+			</p>
+			<div class="space2"></div>
+			<h3 class="project-name">Orgspace</h3>
+			<p class="project-p">Developed a web platform for non-profit organizations
+				to connect with other organizations and individuals at Google CSSI in
+				Mountain View in 2019.</p>
+			<div class="space2"></div>
+			<div class="row">
 
-            <form class="comment-box" action="/data" method="POST" autocomplete="off" id="sendComment">
-                <input type="text" id = "comment-text" name="comment-text"
+				<!-- Comments Feature -->
+				<div class="col">
+					<h3 class="project-title">Comments</h3>
+					<div class="space1"></div>
+
+					<form class="comment-box" action="/data" method="POST" autocomplete="off" id="sendComment">
+						<input type="text" id = "comment-text" name="comment-text"
                     placeholder="Comment..." minlength="1" maxlength="120"/>
-                <input class="comment-button" type="submit" value="Submit Comment" form="sendComment"/> <br/>
-                <button class="comment-button"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
+						<input class="comment-button" type="submit" value="Submit Comment" form="sendComment"/> <br/>
+						<button class="comment-button"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
 
-            <div class="space2"></div>
-            <div class"project-p" id="comments-list"></div>
-            </div>
+						<div class="space2"></div>
+						<div class"project-p" id="comments-list"></div>
+				</div>
 
-        <!-- Charts Feature -->
-            <div class="col">
-                <h3 class="project-title">Poll: Coffee or Tea??</h3>
-                <p class="project-p">Vote</p>
-                <form action="/poll-data" method="POST"> 
-                    <select name="poll" class="poll-style">
-                      <option value="Coffee">Coffee</option> 
-                      <option value="Tea">Tea</option> 
-                    </select>
-                    <button class="poll-butn" onclick="drawChart()">Submit</button> 
-                    <div id="chart-container"></div>
-            </div>
-        
-            </div>
-    </div>
-    <!-- Footer -->
-    <footer class="page-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <h6 class="text-uppercase font-weight-bold">Additional Information</h6>
-                    <p>If you would like to connect with me soon, please reach out with
-                        the contact information I have displayed on the right.</p>
-                    <a href="https://www.linkedin.com/in/samuelsandoval1/">
-                        <img class="foot" src="images/linkedin.png" alt="LinkedIn"> </a>
-                        <a href="https://github.com/samuelsandoval1/">
-                            <img class="foot" src="images/github.png" alt="Github"> </a>
+				<!-- Charts Feature -->
+				<div class="col">
+					<h3 class="project-title">Big Foot Data!</h3>
+					<div id="chart-container" class="poll-style"></div>
+				</div>
 
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <h6 class="text-uppercase font-weight-bold">Contact</h6>
-                    <p>1170 Bordeaux Dr, Sunnyvale, CA </p>
-                    <div class="space1"></div>
-                    samuelsandoval@google.com
-                    <div class="space1"></div>
-                    + 01 234 567 88
-                    <div class="space1"></div>
-                    + 01 234 567 89
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright text-center">
-            © 2020 Copyright: samuelsandoval-step-2020.wl.r.appspot.com </div>
-    </footer>
+			</div>
+		</div>
+		<!-- Footer -->
+		<footer class="page-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-md-8 col-sm-12">
+						<h6 class="text-uppercase font-weight-bold">Additional Information</h6>
+						<p>If you would like to connect with me soon, please reach out with
+							the contact information I have displayed on the right.</p>
+						<a href="https://www.linkedin.com/in/samuelsandoval1/">
+							<img class="foot" src="images/linkedin.png" alt="LinkedIn"> </a>
+							<a href="https://github.com/samuelsandoval1/">
+								<img class="foot" src="images/github.png" alt="Github"> </a>
+
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-12">
+						<h6 class="text-uppercase font-weight-bold">Contact</h6>
+						<p>1170 Bordeaux Dr, Sunnyvale, CA </p>
+						<div class="space1"></div>
+						samuelsandoval@google.com
+						<div class="space1"></div>
+						+ 01 234 567 88
+						<div class="space1"></div>
+						+ 01 234 567 89
+					</div>
+				</div>
+			</div>
+			<div class="footer-copyright text-center">
+				© 2020 Copyright: samuelsandoval-step-2020.wl.r.appspot.com </div>
+		</footer>
 
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
