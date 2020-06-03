@@ -108,26 +108,32 @@
 				to connect with other organizations and individuals at Google CSSI in
 				Mountain View in 2019.</p>
 			<div class="space2"></div>
+			<div class="row">
 
-			<!-- Comments Feature -->
-			<h3 class="project-title">Comments</h3>
-			<div class="space1"></div>
+				<!-- Comments Feature -->
+				<div class="col">
+					<h3 class="project-title">Comments</h3>
+					<div class="space1"></div>
 
-			<form class="comment-box" action="/data" method="POST" autocomplete="off" id="sendComment">
-				<input type="text" id = "comment-text" name="comment-text"
-                    placeholder="Comment..." minlength="1" maxlength="120" required/>
-				<!-- </form> -->
-				<input class="comment-button" type="submit" value="Submit Comment" form="sendComment"/> <br/>
-				<button class="comment-button"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
+					<form class="comment-box" action="/data" method="POST" autocomplete="off" id="sendComment">
+						<input type="text" id = "comment-text" name="comment-text"
+                        placeholder="Comment..." minlength="1" maxlength="120"required>
+						<input class="comment-button" type="submit" value="Submit Comment" form="sendComment"> 
+					</form>
+						<button class="delete-comments"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
 
-				<div class="space2"></div>
-
-				<div class"project-p" id="comments-list"></div>
-
-				<div class="row">
+						<div class="space2"></div>
+						<div id="comments-list"></div>
 				</div>
-		</div>
 
+				<!-- Charts Feature -->
+				<div class="col">
+					<h3 class="project-title">Big Foot Data!</h3>
+					<div id="chart-container" class="poll-style"></div>
+				</div>
+
+			</div>
+		</div>
 		<!-- Footer -->
 		<footer class="page-footer">
 			<div class="container">
@@ -164,6 +170,7 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
 		</script>
+		<script src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="script.js"></script>
 </body>
 

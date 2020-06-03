@@ -78,6 +78,7 @@ function addRandomFact() {
             }
         }
         getComments();
+        drawChart();
     };
 }
 /** Display the comments acquired from the datastore */
@@ -105,4 +106,30 @@ async function deleteComments() {
         method: 'POST',
     });
     getComments();
+}
+
+
+google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  fetch('/poll-data').then(response => response.json())
+  .then((bigfootSightings) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Year');
+    data.addColumn('number', 'Sightings');
+    Object.keys(bigfootSightings).forEach((year) => {
+      data.addRow([year, bigfootSightings[year]]);
+    });
+
+    const options = {
+      'title': 'Bigfoot Sightings',
+      'width':400,
+      'height':200
+    };
+
+    const chart = new google.visualization.LineChart(
+        document.getElementById('chart-container'));
+    chart.draw(data, options);
+  });
 }
