@@ -265,6 +265,12 @@ h1 {
     color:#fff;
     font-size: 1rem;
     line-height: 200%;
+    margin-left: 150px;
+}
+
+.delete-comments{
+    color: #494949;
+    margin-left: 150px;
 }
 
 /* Chart */
