@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/poll-data")
 public class PollDataServlet extends HttpServlet {
-
+  
+//   This map contains the year and number of sightings in that year
   private LinkedHashMap<Integer, Integer> bigfootSightings = new LinkedHashMap<>();
   private String bigfootSightingsJson;
 
