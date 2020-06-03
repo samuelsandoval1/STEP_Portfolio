@@ -117,7 +117,7 @@
 
             <form class="comment-box" action="/data" method="POST" autocomplete="off" id="sendComment">
                 <input type="text" id = "comment-text" name="comment-text"
-                    placeholder="Comment..." minlength="1" maxlength="120" required/>
+                    placeholder="Comment..." minlength="1" maxlength="120"/>
                 <input class="comment-button" type="submit" value="Submit Comment" form="sendComment"/> <br/>
                 <button class="comment-button"id="delete-comments" onclick="deleteComments()"> Delete Comments </button>
 
@@ -125,6 +125,7 @@
             <div class"project-p" id="comments-list"></div>
             </div>
 
+        <!-- Charts Feature -->
             <div class="col">
                 <h3 class="project-title">Poll: Coffee or Tea??</h3>
                 <p class="project-p">Vote</p>
@@ -133,7 +134,7 @@
                       <option value="Coffee">Coffee</option> 
                       <option value="Tea">Tea</option> 
                     </select>
-                    <button class="poll-butn">Submit</button> 
+                    <button class="poll-butn" onclick="drawChart()">Submit</button> 
                     <div id="chart-container"></div>
             </div>
         

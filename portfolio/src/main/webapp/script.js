@@ -78,6 +78,7 @@ function addRandomFact() {
             }
         }
         getComments();
+        drawChart();
     };
 }
 /** Display the comments acquired from the datastore */
@@ -105,4 +106,30 @@ async function deleteComments() {
         method: 'POST',
     });
     getComments();
+}
+
+
+google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    fetch('/poll-data').then(response => response.json())
+        .then((pollVotes) => {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Drink');
+            data.addColumn('number', 'Votes');
+            Object.keys(colorVotes).forEach((color) => {
+                data.addRow([color, colorVotes[color]]);
+            });
+
+            const options = {
+                'title': 'Drink Preference',
+                'width': 600,
+                'height': 500
+            };
+
+            const chart = new google.visualization.ColumnChart(
+                document.getElementById('chart-container'));
+            chart.draw(data, options);
+        });
 }
