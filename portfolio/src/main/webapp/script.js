@@ -124,7 +124,7 @@ function drawChart() {
 
     const options = {
       'title': 'Bigfoot Sightings',
-      'width':300,
+      'width':400,
       'height':200
     };
 
