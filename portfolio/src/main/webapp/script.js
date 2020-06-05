@@ -87,7 +87,7 @@ function loadComments(comments) {
     comments.forEach(commentObject => {
         const childDiv = document.createElement("div");
         childDiv.innerText = "[" + commentObject.timestamp + "] "
-            + commentObject.author + ": " + commentObject.comment;
+            + commentObject.email + ": " + commentObject.comment;
         commentContainer.appendChild(childDiv);
 
     })
