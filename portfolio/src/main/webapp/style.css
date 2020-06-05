@@ -85,6 +85,22 @@ button:hover {
   color: #fff;	
   cursor: pointer;
   font-family: 'Open Sans', sans-serif;
+  
+}
+
+.login-text {
+  margin-top: 5px;    
+  border: 0;
+  color: #fff;	
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.25rem;
+  line-height: inherit;
+  margin-right: 1rem;
+  padding-top: .3125rem;
+  padding-bottom: .3125rem;
+  white-space: nowrap;
 }
 
 .icon1 {
@@ -273,6 +289,9 @@ h1 {
     margin-left: 150px;
 }
 
+#input-form {
+    display: none;
+}
 /* Chart */
 
 .poll-style{
