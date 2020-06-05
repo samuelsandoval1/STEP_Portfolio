@@ -143,23 +143,22 @@ async function loadHome() {
     const link = document.getElementById("login-link");
 
     await getComments();
-    const logStatus = (await getLogStatus() !== 'false');
+    const logStatus = await getLogStatus();
 
-    if (logStatus) {
-        link.href = "/_ah/logout?continue=%2F"
+    if (logStatus.Bool === "true") {
+        link.href = logStatus.Url;
         link.innerHTML = "Logout";
         logging.style.display = "block";
         inputForm.style.display = "block";
-    }
-    else {
-        link.href = "/_ah/login?continue=%2F";
+    } else {
+        link.href = logStatus.Url;
         link.innerHTML = "Login";
         logging.style.display = "block";
     }
 }
 
 async function getLogStatus() {
-    const response = await fetch('/login');
-    const isLoggedIn = await response.text();
+    const response = await fetch('/userapi');
+    const isLoggedIn = await response.json();
     return isLoggedIn;
 }
