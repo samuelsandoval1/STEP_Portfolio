@@ -25,19 +25,9 @@ public class UserApiServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         JsonObject loginInfo = new JsonObject();
-
         UserService userService = UserServiceFactory.getUserService();
-        String thisUrl = request.getRequestURI();
-        String url;
-        Boolean isLoggedIn;
-
-        if(!userService.isUserLoggedIn()) {
-            url = userService.createLoginURL("/index.html");
-            isLoggedIn = false; 
-        } else {
-            url = userService.createLogoutURL("/index.html");
-            isLoggedIn = true;
-        }
+        Boolean isLoggedIn = userService.isUserLoggedIn();
+        String url = isLoggedIn ? userService.createLoginURL("/index.html") : userService.createLogoutURL("/index.html");
         
         loginInfo.addProperty("Url", url);
         loginInfo.addProperty("Bool", isLoggedIn);
