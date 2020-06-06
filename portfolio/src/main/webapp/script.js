@@ -77,7 +77,7 @@ function addRandomFact() {
                 new textBeingTyped(element, JSON.parse(toRotate), period);
             }
         }
-        getComments();
+        loadHome();
         drawChart();
     };
 }
@@ -87,7 +87,7 @@ function loadComments(comments) {
     comments.forEach(commentObject => {
         const childDiv = document.createElement("div");
         childDiv.innerText = "[" + commentObject.timestamp + "] "
-            + commentObject.author + ": " + commentObject.comment;
+            + commentObject.email + ": " + commentObject.comment;
         commentContainer.appendChild(childDiv);
 
     })
@@ -108,28 +108,57 @@ async function deleteComments() {
     getComments();
 }
 
+/** Chart Feature */
+
 
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-  fetch('/poll-data').then(response => response.json())
-  .then((bigfootSightings) => {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Year');
-    data.addColumn('number', 'Sightings');
-    Object.keys(bigfootSightings).forEach((year) => {
-      data.addRow([year, bigfootSightings[year]]);
-    });
+    fetch('/poll-data').then(response => response.json())
+        .then((bigfootSightings) => {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Year');
+            data.addColumn('number', 'Sightings');
+            Object.keys(bigfootSightings).forEach((year) => {
+                data.addRow([year, bigfootSightings[year]]);
+            });
 
-    const options = {
-      'title': 'Bigfoot Sightings',
-      'width':400,
-      'height':200
-    };
+            const options = {
+                'title': 'Bigfoot Sightings',
+                'width': 400,
+                'height': 200
+            };
 
-    const chart = new google.visualization.LineChart(
-        document.getElementById('chart-container'));
-    chart.draw(data, options);
-  });
+            const chart = new google.visualization.LineChart(
+                document.getElementById('chart-container'));
+            chart.draw(data, options);
+        });
+}
+
+/** Authentication Feature */
+async function loadHome() {
+    const inputForm = document.getElementById("input-form");
+    const logging = document.getElementById("logging");
+    const link = document.getElementById("login-link");
+
+    await getComments();
+    const logStatus = await getLogStatus();
+
+    if (logStatus.Bool === "true") {
+        link.href = logStatus.Url;
+        link.innerHTML = "Logout";
+        logging.style.display = "block";
+        inputForm.style.display = "block";
+    } else {
+        link.href = logStatus.Url;
+        link.innerHTML = "Login";
+        logging.style.display = "block";
+    }
+}
+
+async function getLogStatus() {
+    const response = await fetch('/userapi');
+    const isLoggedIn = await response.json();
+    return isLoggedIn;
 }
