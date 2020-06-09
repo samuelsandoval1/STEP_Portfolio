@@ -101,7 +101,4 @@ public final class FindMeetingQuery {
         combinedTimeRanges = combineTimeRanges(eventsTimeRangesForMandatoryAttendees);
         return getFreeTimeRanges(combinedTimeRanges, request.getDuration());
     }
-
-
-    
 }
