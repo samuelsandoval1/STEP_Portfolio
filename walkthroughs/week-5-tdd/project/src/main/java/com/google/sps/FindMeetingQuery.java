@@ -22,8 +22,8 @@ import java.util.ArrayList;
 public final class FindMeetingQuery {
 
     /** Check if the event and the request contains the same attendee. */
-    private boolean containSameAttendees(Collection < String > eventAttendees, Collection < String > requestAttendees) {
-        if (requestAttendees.size() == 0)
+    private static boolean containsAttendeesInCommon(Collection <String> eventAttendees, Collection <String> requestAttendees) {
+        if (requestAttendees.isEmpty())
             return false;
 
         for (String attendee: eventAttendees)
@@ -35,8 +35,8 @@ public final class FindMeetingQuery {
     /**
      * Combine overlapped TimeRanges in a sorted List, return collection without overlap
      */
-    private Collection < TimeRange > combineTimeRanges(List < TimeRange > timeRanges) {
-        Collection < TimeRange > combinedTimeRanges = new ArrayList < > ();
+    private Collection <TimeRange> combineTimeRanges(List <TimeRange> timeRanges) {
+        Collection <TimeRange> combinedTimeRanges = new ArrayList <>();
 
         if (timeRanges.size() == 0)
             return combinedTimeRanges;
@@ -46,7 +46,7 @@ public final class FindMeetingQuery {
             TimeRange nextEvent = timeRanges.get(i);
             if (currentEvent.overlaps(nextEvent)) {
                 int start = currentEvent.start();
-                int end = currentEvent.contains(nextEvent.end()) ? currentEvent.end() : nextEvent.end();
+                int end = Math.max(currentEvent.end(), nextEvent.end());
                 currentEvent = TimeRange.fromStartEnd(start, end, false);
             } else {
                 combinedTimeRanges.add(currentEvent);
@@ -61,8 +61,8 @@ public final class FindMeetingQuery {
     /**
      * Get a Collection of free TimeRanges given a collection of busy TimeRanges.
      */
-    private Collection < TimeRange > getFreeTimeRanges(Collection < TimeRange > busyTimeRanges, Long requestDuration) {
-        Collection < TimeRange > freeTimeRanges = new ArrayList < > ();
+    private Collection <TimeRange> getFreeTimeRanges(Collection <TimeRange> busyTimeRanges, Long requestDuration) {
+        Collection <TimeRange> freeTimeRanges = new ArrayList <> ();
         int start = TimeRange.START_OF_DAY;
         for (TimeRange time: busyTimeRanges) {
             int newEnd = time.start();
@@ -78,21 +78,21 @@ public final class FindMeetingQuery {
         return freeTimeRanges;
     }
     
-    public Collection < TimeRange > query(Collection < Event > events, MeetingRequest request) {
-        List < TimeRange > eventsTimeRangesForMandatoryAttendees = new ArrayList < > ();
-        List < TimeRange > eventsTimeRangesWithOptionalAttendees = new ArrayList < > ();
+    public Collection <TimeRange> query(Collection <Event> events, MeetingRequest request) {
+        List <TimeRange> eventsTimeRangesForMandatoryAttendees = new ArrayList < > ();
+        List <TimeRange> eventsTimeRangesWithOptionalAttendees = new ArrayList < > ();
         for (Event event: events) {
-            if (containSameAttendees(event.getAttendees(), request.getAttendees())) {
+            if (containsAttendeesInCommon(event.getAttendees(), request.getAttendees())) {
                 eventsTimeRangesForMandatoryAttendees.add(event.getWhen());
                 eventsTimeRangesWithOptionalAttendees.add(event.getWhen());
-            } else if (containSameAttendees(event.getAttendees(), request.getOptionalAttendees())) {
+            } else if (containsAttendeesInCommon(event.getAttendees(), request.getOptionalAttendees())) {
                 eventsTimeRangesWithOptionalAttendees.add(event.getWhen());
             }
         }
 
         Collections.sort(eventsTimeRangesWithOptionalAttendees, TimeRange.ORDER_BY_START);
-        Collection < TimeRange > combinedTimeRanges = combineTimeRanges(eventsTimeRangesWithOptionalAttendees);
-        Collection < TimeRange > freeTimeRanges = getFreeTimeRanges(combinedTimeRanges, request.getDuration());
+        Collection <TimeRange> combinedTimeRanges = combineTimeRanges(eventsTimeRangesWithOptionalAttendees);
+        Collection <TimeRange> freeTimeRanges = getFreeTimeRanges(combinedTimeRanges, request.getDuration());
         if (freeTimeRanges.size() > 0 || request.getAttendees().size() == 0)
             return freeTimeRanges;
 

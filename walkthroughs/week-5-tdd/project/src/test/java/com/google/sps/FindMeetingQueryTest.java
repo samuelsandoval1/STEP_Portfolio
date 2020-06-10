@@ -340,7 +340,6 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void noMandatoryAttendees() {
-      //t
       Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartDuration(TIME_0800AM, DURATION_30_MINUTES),
             Arrays.asList(PERSON_A)),
