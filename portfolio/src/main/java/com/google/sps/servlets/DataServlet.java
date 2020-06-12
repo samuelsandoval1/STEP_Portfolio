@@ -17,8 +17,8 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
@@ -28,7 +28,6 @@ import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,10 +36,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  
+
   private static final Gson gson = new Gson();
 
   private int maxComments = 40;
@@ -54,22 +52,22 @@ public class DataServlet extends HttpServlet {
 
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : resultsList) {
-        long id = entity.getKey().getId();
-        String comment = (String) entity.getProperty("comment");
-        String email = (String) entity.getProperty("email");
-        Date timestamp = (Date) entity.getProperty("timestamp");
+      long id = entity.getKey().getId();
+      String comment = (String) entity.getProperty("comment");
+      String email = (String) entity.getProperty("email");
+      Date timestamp = (Date) entity.getProperty("timestamp");
 
-        Comment commentObject = new Comment(id, comment, email,timestamp);
-        comments.add(commentObject);
+      Comment commentObject = new Comment(id, comment, email, timestamp);
+      comments.add(commentObject);
     }
     return comments;
-    }
+  }
 
   private void storeComment(String comment) {
 
     UserService userService = UserServiceFactory.getUserService();
     String email = userService.getCurrentUser().getEmail();
-    
+
     LocalDateTime localDate = LocalDateTime.now();
 
     Date timestamp = Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
@@ -81,7 +79,7 @@ public class DataServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
-    }
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -92,13 +90,11 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-    
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String comment = request.getParameter("comment-text");
-        storeComment(comment);
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String comment = request.getParameter("comment-text");
+    storeComment(comment);
 
-        response.sendRedirect("/index.html");
-    }
-
+    response.sendRedirect("/index.html");
+  }
 }
