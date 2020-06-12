@@ -15,7 +15,7 @@ public final class Comment {
    * @param {!String} email The user email.
    * @param {!Date} timeStamp The time at the instant of initiation.
    */
-  public Comment(long id, String comment, String email,  Date timestamp) {
+  public Comment(long id, String comment, String email, Date timestamp) {
     this.id = id;
     this.comment = comment;
     this.email = email;
