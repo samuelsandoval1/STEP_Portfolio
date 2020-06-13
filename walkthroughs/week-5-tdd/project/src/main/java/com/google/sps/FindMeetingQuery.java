@@ -15,89 +15,82 @@
 package com.google.sps;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-public final class FindMeetingQuery {
+public final class FindMeetingQuery {        
 
-    /** Check if the event and the request contains the same attendee. */
-    private static boolean containsAttendeesInCommon(Collection <String> eventAttendees, Collection <String> requestAttendees) {
-        if (requestAttendees.isEmpty())
-            return false;
-
-        for (String attendee: eventAttendees)
-            if (requestAttendees.contains(attendee))
-                return true;
-        return false;
-    }
-
-    /**
-     * Combine overlapped TimeRanges in a sorted List, return collection without overlap
-     */
-    private Collection <TimeRange> combineTimeRanges(List <TimeRange> timeRanges) {
-        Collection <TimeRange> combinedTimeRanges = new ArrayList <>();
-
-        if (timeRanges.size() == 0)
-            return combinedTimeRanges;
-
-        TimeRange currentEvent = timeRanges.get(0);
-        for (int i = 1; i < timeRanges.size(); i++) {
-            TimeRange nextEvent = timeRanges.get(i);
-            if (currentEvent.overlaps(nextEvent)) {
-                int start = currentEvent.start();
-                int end = Math.max(currentEvent.end(), nextEvent.end());
-                currentEvent = TimeRange.fromStartEnd(start, end, false);
-            } else {
-                combinedTimeRanges.add(currentEvent);
-                currentEvent = nextEvent;
-            }
-        }
-        combinedTimeRanges.add(currentEvent);
-
-        return combinedTimeRanges;
-    }
-
-    /**
-     * Get a Collection of free TimeRanges given a collection of busy TimeRanges.
-     */
-    private Collection <TimeRange> getFreeTimeRanges(Collection <TimeRange> busyTimeRanges, Long requestDuration) {
-        Collection <TimeRange> freeTimeRanges = new ArrayList <> ();
-        int start = TimeRange.START_OF_DAY;
-        for (TimeRange time: busyTimeRanges) {
-            int newEnd = time.start();
-            int newStart = time.end();
-            if (newEnd - start >= requestDuration)
-                freeTimeRanges.add(TimeRange.fromStartEnd(start, newEnd, false));
-            start = newStart;
-        }
-
-        if (TimeRange.END_OF_DAY - start >= requestDuration)
-            freeTimeRanges.add(TimeRange.fromStartEnd(start, TimeRange.END_OF_DAY, true));
-
-        return freeTimeRanges;
-    }
-    
     public Collection <TimeRange> query(Collection <Event> events, MeetingRequest request) {
-        List <TimeRange> eventsTimeRangesForMandatoryAttendees = new ArrayList < > ();
-        List <TimeRange> eventsTimeRangesWithOptionalAttendees = new ArrayList < > ();
-        for (Event event: events) {
-            if (containsAttendeesInCommon(event.getAttendees(), request.getAttendees())) {
-                eventsTimeRangesForMandatoryAttendees.add(event.getWhen());
-                eventsTimeRangesWithOptionalAttendees.add(event.getWhen());
-            } else if (containsAttendeesInCommon(event.getAttendees(), request.getOptionalAttendees())) {
-                eventsTimeRangesWithOptionalAttendees.add(event.getWhen());
-            }
+      long duration = request.getDuration();
+      Collection<String> mandatoryAttendees = request.getAttendees();
+
+      ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
+
+      
+      if(mandatoryAttendees.isEmpty()){
+        availableTimeForAll.add(TimeRange.WHOLE_DAY);
+        return availableTimeForAll;
+      }
+      if (duration > 60 * 24){
+          return availableTimeForAll;
+      }
+
+      Set<String> attendeesSet = new HashSet<String>();
+      //adding attendees into the set
+      for(String attendee: mandatoryAttendees) {
+        attendeesSet.add(attendee);
+      }
+      // availableTimes array set up to have minutes with the boolean value for when the meetings can happen
+      // all of the minutes when meetings can be held will be marked true
+      boolean[] availableTimes = new boolean[TimeRange.END_OF_DAY+1];
+      for(int i = 0; i < availableTimes.length; i++) {
+        availableTimes[i] = true;
+      }
+      
+      boolean containsAttendeesInCommon = false;
+      for(Event event: events) {
+        Collection<String> eventAttendees = event.getAttendees();
+        TimeRange when = event.getWhen();
+        int eventStart = when.start();
+        int eventEnd = when.end();
+
+        for(String eventAttendee: eventAttendees) {
+          if(attendeesSet.contains(eventAttendee)) {
+            containsAttendeesInCommon = true;
+          }
         }
 
-        Collections.sort(eventsTimeRangesWithOptionalAttendees, TimeRange.ORDER_BY_START);
-        Collection <TimeRange> combinedTimeRanges = combineTimeRanges(eventsTimeRangesWithOptionalAttendees);
-        Collection <TimeRange> freeTimeRanges = getFreeTimeRanges(combinedTimeRanges, request.getDuration());
-        if (freeTimeRanges.size() > 0 || request.getAttendees().size() == 0)
-            return freeTimeRanges;
+        // check if any of the attendees are attending the event
+        if(containsAttendeesInCommon) {
+            //marks minutes as false
+            for(int i = eventStart; i < eventEnd; i++) {
+                availableTimes[i] = false;
+            }
+        }
+      }
+      
+      int start = 0;
+      int current = 0;
+      //runs a linear search to search for a availbleTime
+      for(int min = 0; min <= TimeRange.END_OF_DAY; min++) {
+        if(availableTimes[min]) {
+            current++;
+        }
+        else {
+           //If the time range lasts longer than the required duration, add it to the output. 
+            if(current >= duration) {
+                availableTimeForAll.add(TimeRange.fromStartDuration(start, current));
+            }
+            start = min+1;
+            current = 0;
+        }
+      }
+      if(current >= duration) {
+        availableTimeForAll.add(TimeRange.fromStartDuration(start, current));
+      }
 
-        Collections.sort(eventsTimeRangesForMandatoryAttendees, TimeRange.ORDER_BY_START);
-        combinedTimeRanges = combineTimeRanges(eventsTimeRangesForMandatoryAttendees);
-        return getFreeTimeRanges(combinedTimeRanges, request.getDuration());
+      return availableTimeForAll;
     }
 }
