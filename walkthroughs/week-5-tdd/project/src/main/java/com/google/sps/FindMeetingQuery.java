@@ -23,10 +23,17 @@ import java.util.Set;
 public final class FindMeetingQuery {        
 
     public Collection <TimeRange> query(Collection <Event> events, MeetingRequest request) {
+      long calculation = 0;
       long duration = request.getDuration();
       Collection<String> mandatoryAttendees = request.getAttendees();
-
       ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
+      int counter = 0;
+      int end = TimeRange.END_OF_DAY;
+      TimeRange meetingDuration;
+      int meetingStart = 0;
+      int meetingEnd = 0;
+      int len = events.size();
+      int start = TimeRange.START_OF_DAY;
 
       
       if(mandatoryAttendees.isEmpty()){
@@ -38,58 +45,82 @@ public final class FindMeetingQuery {
       }
 
       Set<String> attendeesSet = new HashSet<String>();
-      //adding attendees into the set
-      for(String attendee: mandatoryAttendees) {
-        attendeesSet.add(attendee);
+      for(String attendee : mandatoryAttendees) {
+            attendeesSet.add(attendee);
       }
-      // availableTimes array set up to have minutes with the boolean value for when the meetings can happen
-      // all of the minutes when meetings can be held will be marked true
-      boolean[] availableTimes = new boolean[TimeRange.END_OF_DAY+1];
-      for(int i = 0; i < availableTimes.length; i++) {
-        availableTimes[i] = true;
+      int setSize = attendeesSet.size();
+
+      if(len == 0) {
+        availableTimeForAll.add(TimeRange.WHOLE_DAY);
+        return availableTimeForAll;
       }
-      
-      boolean containsAttendeesInCommon = false;
+
       for(Event event: events) {
         Collection<String> eventAttendees = event.getAttendees();
-        TimeRange when = event.getWhen();
-        int eventStart = when.start();
-        int eventEnd = when.end();
+        TimeRange when = event.getWhen();        
 
-        for(String eventAttendee: eventAttendees) {
-          if(attendeesSet.contains(eventAttendee)) {
-            containsAttendeesInCommon = true;
+        //if on first event
+        if(counter == 0) {
+            meetingStart = when.start();
+            String attendee1 = attendeesSet.iterator().next();
+            String eventAttendeePerson =  eventAttendees.iterator().next();
+
+            //if attendee for event is not equal to meeting request attendee then make the availableTime all day
+            if(eventAttendeePerson != attendee1){
+                availableTimeForAll.add(TimeRange.WHOLE_DAY);
+                return availableTimeForAll;
+            }
+
+            meetingEnd = when.end();
+            availableTimeForAll.add(TimeRange.fromStartEnd(start, meetingStart,false));
+            
+            if(len == 1){
+                availableTimeForAll.add(TimeRange.fromStartEnd(meetingEnd, end, true));
+                return availableTimeForAll;
+            }
+        }
+        //if second event
+        if(counter == 1) {
+
+            int newStart = meetingEnd;
+            meetingStart = when.start();
+            calculation = meetingStart - newStart;
+            if(meetingEnd < meetingStart) {
+                if(calculation < duration){
+                    availableTimeForAll.clear();
+                    return availableTimeForAll;
+                }
+                if(calculation == duration && setSize == 1){
+                    int dur = (int)duration;
+                    availableTimeForAll.clear();
+                    availableTimeForAll.add(TimeRange.fromStartDuration(newStart, dur));
+                    return availableTimeForAll;
+                }
+                else{
+                    availableTimeForAll.add(TimeRange.fromStartEnd(newStart, meetingStart, false));
+                    meetingEnd = when.end();
+                    availableTimeForAll.add(TimeRange.fromStartEnd(meetingEnd, end, true));
+                    return availableTimeForAll;
+                }
+            
+            }
+            meetingEnd = when.end();
+            if(newStart > meetingEnd){
+                availableTimeForAll.add(TimeRange.fromStartEnd(newStart, end, true));
+                return availableTimeForAll;
+            }
+            else{
+                meetingEnd = when.end();
+                availableTimeForAll.add(TimeRange.fromStartEnd(meetingEnd, end, true));
+                return availableTimeForAll;
+            }
           }
+          counter++;
         }
-
-        // check if any of the attendees are attending the event
-        if(containsAttendeesInCommon) {
-            //marks minutes as false
-            for(int i = eventStart; i < eventEnd; i++) {
-                availableTimes[i] = false;
-            }
-        }
-      }
-      
-      int start = 0;
-      int current = 0;
-      //runs a linear search to search for a availbleTime
-      for(int min = 0; min <= TimeRange.END_OF_DAY; min++) {
-        if(availableTimes[min]) {
-            current++;
-        }
-        else {
-           //If the time range lasts longer than the required duration, add it to the output. 
-            if(current >= duration) {
-                availableTimeForAll.add(TimeRange.fromStartDuration(start, current));
-            }
-            start = min+1;
-            current = 0;
-        }
-      }
-      if(current >= duration) {
-        availableTimeForAll.add(TimeRange.fromStartDuration(start, current));
-      }
+        //happens on last event
+        //if(events[1])
+        //int meetingEnd = when.getEnd();
+        //availableTimeForAll.add(TimeRange.fromStartEnd(meetingEnd, end, true));
 
       return availableTimeForAll;
     }

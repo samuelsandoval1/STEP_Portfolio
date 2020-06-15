@@ -202,6 +202,7 @@ public final class FindMeetingQueryTest {
     Assert.assertEquals(expected, actual);
   }
 
+  //stuck here
   @Test
   public void justEnoughRoom() {
     // Have one person, but make it so that there is just enough room at one point in the day to
@@ -226,6 +227,8 @@ public final class FindMeetingQueryTest {
     Assert.assertEquals(expected, actual);
   }
 
+
+
   @Test
   public void ignoresPeopleNotAttending() {
     // Add an event, but make the only attendee someone different from the person looking to book
@@ -239,6 +242,7 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
+ 
 
   @Test
   public void noConflicts() {
@@ -273,6 +277,6 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
-  
+ 
 }
 
