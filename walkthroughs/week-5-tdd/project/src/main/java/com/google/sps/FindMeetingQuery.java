@@ -26,7 +26,6 @@ public final class FindMeetingQuery {
     private static ArrayList <TimeRange>  findAvailableTimes(Collection<Event> events, Collection<String> mandatoryAttendees,long duration) {
       ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
       int end = TimeRange.END_OF_DAY;
-      int len = events.size();
       int start = TimeRange.START_OF_DAY;
 
       if(mandatoryAttendees.isEmpty()){
@@ -42,9 +41,8 @@ public final class FindMeetingQuery {
       for(String attendee : mandatoryAttendees) {
         attendeesSet.add(attendee);
       }
-      int setSize = attendeesSet.size();
-    
-      if(len == 0) {
+          
+      if(events.isEmpty()) {
         availableTimeForAll.add(TimeRange.WHOLE_DAY);
         return availableTimeForAll;
       }
