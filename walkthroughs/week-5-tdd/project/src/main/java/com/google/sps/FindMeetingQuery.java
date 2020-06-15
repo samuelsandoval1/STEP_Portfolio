@@ -41,13 +41,13 @@ public final class FindMeetingQuery {
       for(String attendee : mandatoryAttendees) {
         attendeesSet.add(attendee);
       }
-          
+    
       if(events.isEmpty()) {
         availableTimeForAll.add(TimeRange.WHOLE_DAY);
         return availableTimeForAll;
       }
      
-      for(Event event: events) {
+      for(Event event : events) {
         Collection<String> eventAttendees = event.getAttendees();
         TimeRange when = event.getWhen(); 
         boolean attendeeInEvent = false;
