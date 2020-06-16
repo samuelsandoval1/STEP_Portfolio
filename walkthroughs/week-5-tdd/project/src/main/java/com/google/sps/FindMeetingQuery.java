@@ -26,49 +26,51 @@ import java.util.stream.Collectors;
 
 public final class FindMeetingQuery {   
 
-    /* Returns sorted TimeRanges that have attendees in the attendees set. */
-    private static ArrayList<TimeRange> getBusyTimeRangesForAttendees(Collection<Event> events, Set<String> attendeesSet) { 
-        ArrayList<TimeRange> timeRangesWithAttendees = new ArrayList <TimeRange> ();
-        for(Event event: events) {
-            Collection<String> eventAttendees = event.getAttendees();
-            TimeRange when = event.getWhen();
-            for(String attendee : eventAttendees) {   
-                if(attendeesSet.contains(attendee)) {
-                    timeRangesWithAttendees.add(when);
-                    break;
-                } 
-            }
+    // Returns sorted TimeRanges that have attendees in the attendees set.
+    private static ArrayList<TimeRange> getBusyTimeRangesForAttendees(Collection<Event> events, Collection<String> mandatoryAttendees) {   
+      Set<String> attendeesSet = new HashSet<String>();
+      for(String attendee : mandatoryAttendees) {
+        attendeesSet.add(attendee);
+      }
+      
+      ArrayList<TimeRange> timeRangesWithAttendees = new ArrayList <TimeRange> ();
+      for(Event event: events) {
+        Collection<String> eventAttendees = event.getAttendees();
+        TimeRange when = event.getWhen();
+        for(String attendee : eventAttendees) {   
+          if(attendeesSet.contains(attendee)) {
+            timeRangesWithAttendees.add(when);
+            break;
+          } 
         }
-        Collections.sort(timeRangesWithAttendees, TimeRange.ORDER_BY_START);
-        return timeRangesWithAttendees;
+      }
+      Collections.sort(timeRangesWithAttendees, TimeRange.ORDER_BY_START);
+      return timeRangesWithAttendees;
     }
 
     //Calculates the availbleTimes from the series of events
     private static ArrayList <TimeRange> findAvailableTimes(Collection<Event> events, Collection<String> mandatoryAttendees, long duration) {
       ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
-      int end = TimeRange.END_OF_DAY;
       int start = TimeRange.START_OF_DAY;
+      int MAX_DURATION = 60 * 24;
 
       if(mandatoryAttendees.isEmpty()){
           availableTimeForAll.add(TimeRange.WHOLE_DAY);
           return availableTimeForAll;
       }
     
-      if (duration > 60 * 24) {
+      if (duration > MAX_DURATION) {
         return availableTimeForAll;
       }
 
-      Set<String> attendeesSet = new HashSet<String>();
-      for(String attendee : mandatoryAttendees) {
-        attendeesSet.add(attendee);
-      }
+      
     
       if(events.isEmpty()) {
         availableTimeForAll.add(TimeRange.WHOLE_DAY);
         return availableTimeForAll;
       }
-      ArrayList<TimeRange> timeRangeWithAttendees = getBusyTimeRangesForAttendees(events, attendeesSet);
-     
+
+      ArrayList<TimeRange> timeRangeWithAttendees = getBusyTimeRangesForAttendees(events, mandatoryAttendees);
       for(TimeRange when : timeRangeWithAttendees) {
         int meetingStart = when.start();
         if(meetingStart < start) {
@@ -81,9 +83,11 @@ public final class FindMeetingQuery {
         }
         start = when.end();
       }
+      int end = TimeRange.END_OF_DAY;
       if(start + duration <= end) {
         availableTimeForAll.add(TimeRange.fromStartEnd(start, end, true));
       }
+
       return availableTimeForAll;
     }
     
