@@ -19,11 +19,32 @@ import java.util.Collections;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 
 public final class FindMeetingQuery {   
 
-    private static ArrayList <TimeRange>  findAvailableTimes(Collection<Event> events, Collection<String> mandatoryAttendees,long duration) {
+    /* Returns sorted TimeRanges that have attendees in the attendees set. */
+    private static ArrayList<TimeRange> getBusyTimeRangesForAttendees(Collection<Event> events, Set<String> attendeesSet) { 
+        ArrayList<TimeRange> timeRangesWithAttendees = new ArrayList <TimeRange> ();
+        for(Event event: events) {
+            Collection<String> eventAttendees = event.getAttendees();
+            TimeRange when = event.getWhen();
+            for(String attendee : eventAttendees) {   
+                if(attendeesSet.contains(attendee)) {
+                    timeRangesWithAttendees.add(when);
+                    break;
+                } 
+            }
+        }
+        Collections.sort(timeRangesWithAttendees, TimeRange.ORDER_BY_START);
+        return timeRangesWithAttendees;
+    }
+
+    //Calculates the availbleTimes from the series of events
+    private static ArrayList <TimeRange> findAvailableTimes(Collection<Event> events, Collection<String> mandatoryAttendees, long duration) {
       ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
       int end = TimeRange.END_OF_DAY;
       int start = TimeRange.START_OF_DAY;
@@ -46,37 +67,19 @@ public final class FindMeetingQuery {
         availableTimeForAll.add(TimeRange.WHOLE_DAY);
         return availableTimeForAll;
       }
+      ArrayList<TimeRange> timeRangeWithAttendees = getBusyTimeRangesForAttendees(events, attendeesSet);
      
-      for(Event event : events) {
-        Collection<String> eventAttendees = event.getAttendees();
-        TimeRange when = event.getWhen(); 
-        boolean attendeeInEvent = false;
-        for(String attendee : eventAttendees) {   
-            if(attendeesSet.contains(attendee)) {
-                attendeeInEvent = true;
-                break;
-            } 
-        }
-        if(!attendeeInEvent) {
-            continue;
-        }
-        
+      for(TimeRange when : timeRangeWithAttendees) {
         int meetingStart = when.start();
         if(meetingStart < start) {
-            if(start > when.end()) {
-                continue;
-            }
-            else {
-            start = when.end();
-            continue;
-            }
+            start = Math.max(start, when.end());
+            continue;            
         }
-
+       
         if(start + duration <= meetingStart) {
         availableTimeForAll.add(TimeRange.fromStartEnd(start, meetingStart, false));
         }
         start = when.end();
-
       }
       if(start + duration <= end) {
         availableTimeForAll.add(TimeRange.fromStartEnd(start, end, true));
