@@ -32,7 +32,7 @@ public final class FindMeetingQuery {
       for(String attendee : mandatoryAttendees) {
         attendeesSet.add(attendee);
       }
-      
+
       ArrayList<TimeRange> timeRangesWithAttendees = new ArrayList <TimeRange> ();
       for(Event event: events) {
         Collection<String> eventAttendees = event.getAttendees();
@@ -62,9 +62,6 @@ public final class FindMeetingQuery {
       if (duration > MAX_DURATION) {
         return availableTimeForAll;
       }
-
-      
-    
       if(events.isEmpty()) {
         availableTimeForAll.add(TimeRange.WHOLE_DAY);
         return availableTimeForAll;
