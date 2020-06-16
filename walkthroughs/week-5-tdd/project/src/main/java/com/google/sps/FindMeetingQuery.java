@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 
 public final class FindMeetingQuery {   
 
+    private static int MAX_DURATION = 60 * 24;
+
     // Returns sorted TimeRanges that have attendees in the attendees set.
     private static ArrayList<TimeRange> getBusyTimeRangesForAttendees(Collection<Event> events, Collection<String> mandatoryAttendees) {   
       Set<String> attendeesSet = new HashSet<String>();
@@ -52,7 +54,6 @@ public final class FindMeetingQuery {
     private static ArrayList <TimeRange> findAvailableTimes(Collection<Event> events, Collection<String> mandatoryAttendees, long duration) {
       ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
       int start = TimeRange.START_OF_DAY;
-      int MAX_DURATION = 60 * 24;
 
       if(mandatoryAttendees.isEmpty()){
           availableTimeForAll.add(TimeRange.WHOLE_DAY);
