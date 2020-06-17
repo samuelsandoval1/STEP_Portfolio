@@ -26,7 +26,8 @@ public final class FindMeetingQuery {
     private static int MAX_DURATION = 60 * 24;
 
     // Returns sorted TimeRanges that have attendees in the attendees set.
-    private static ArrayList<TimeRange> getBusyTimeRangesForAttendees(Collection<Event> events, Collection<String> mandatoryAttendees) {   
+    private static ArrayList<TimeRange> getBusyTimeRangesForAttendees(Collection<Event> events,
+    Collection<String> mandatoryAttendees) {   
       Set<String> attendeesSet = new HashSet<String>();
       for(String attendee : mandatoryAttendees) {
         attendeesSet.add(attendee);
@@ -47,10 +48,11 @@ public final class FindMeetingQuery {
       return timeRangesWithAttendees;
     }
 
-    //Calculates the availbleTimes from the series of events
-    private static ArrayList <TimeRange> findAvailableTimes(Collection<Event> events, Collection<String> mandatoryAttendees, long duration) {
+    //Calculates the available times from the series of events
+    private static ArrayList <TimeRange> findAvailableTimes(Collection<Event> events,
+    Collection<String> mandatoryAttendees, long duration) {
       ArrayList<TimeRange> availableTimeForAll = new ArrayList<TimeRange>();
-      int start = TimeRange.START_OF_DAY;
+      int empty_slot_start = TimeRange.START_OF_DAY;
 
       if(mandatoryAttendees.isEmpty()){
           availableTimeForAll.add(TimeRange.WHOLE_DAY);
@@ -65,22 +67,23 @@ public final class FindMeetingQuery {
         return availableTimeForAll;
       }
 
-      ArrayList<TimeRange> timeRangeWithAttendees = getBusyTimeRangesForAttendees(events, mandatoryAttendees);
+      ArrayList<TimeRange> timeRangeWithAttendees = 
+        getBusyTimeRangesForAttendees(events, mandatoryAttendees);
       for(TimeRange when : timeRangeWithAttendees) {
         int meetingStart = when.start();
-        if(meetingStart < start) {
-            start = Math.max(start, when.end());
+        if(meetingStart < empty_slot_start) {
+            empty_slot_start = Math.max(empty_slot_start, when.end());
             continue;            
         }
        
-        if(start + duration <= meetingStart) {
-        availableTimeForAll.add(TimeRange.fromStartEnd(start, meetingStart, false));
+        if(empty_slot_start + duration <= meetingStart) {
+        availableTimeForAll.add(TimeRange.fromStartEnd(empty_slot_start, meetingStart, false));
         }
-        start = when.end();
+        empty_slot_start = when.end();
       }
       int end = TimeRange.END_OF_DAY;
-      if(start + duration <= end) {
-        availableTimeForAll.add(TimeRange.fromStartEnd(start, end, true));
+      if(empty_slot_start + duration <= end) {
+        availableTimeForAll.add(TimeRange.fromStartEnd(empty_slot_start, end, true));
       }
 
       return availableTimeForAll;
