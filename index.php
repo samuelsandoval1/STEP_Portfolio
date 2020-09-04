@@ -1,1 +1,1 @@
-<?php header( 'Location: /portfolio/src/main/webapp/index.html');?>
+<?php header( 'Location: portfolio/src/main/webapp/index.html');?>
