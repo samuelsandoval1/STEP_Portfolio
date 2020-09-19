@@ -1,0 +1,1 @@
+<?php header( 'Location: /portfolio/src/main/index.html');?>
